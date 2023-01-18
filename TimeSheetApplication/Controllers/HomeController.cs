@@ -29,7 +29,7 @@ namespace TimeSheetApplication.Controllers
         }
         public const string SessionKeyName = "_Name";
         public const string SessionKeyId = "_Id";
-
+        
         //Post Action
         [HttpPost]
         public ActionResult Login(Employee u)
@@ -42,8 +42,7 @@ namespace TimeSheetApplication.Controllers
                         if (obj != null)
                         {
                             HttpContext.Session.SetString(SessionKeyName, obj.EmployeeEmail.ToString());
-                            HttpContext.Session.SetInt32(SessionKeyId, obj.EmployeeId);
-                            
+                            HttpContext.Session.SetInt32(SessionKeyId, obj.EmployeeId); 
                             return RedirectToAction("Index");
                         }
 
@@ -68,11 +67,30 @@ namespace TimeSheetApplication.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.name = HttpContext.Session.GetString(SessionKeyName);
-            ViewBag.id = HttpContext.Session.GetInt32(SessionKeyId).ToString();
-
-            
+           
             return View();
+        }
+        
+        public IActionResult MyProfile()
+        {
+           
+            using (TimeSheetApplicationContext db = new TimeSheetApplicationContext())
+            {
+                var SessionEmail = HttpContext.Session.GetString(SessionKeyName);
+                var obj = db.Employees.Where(a => a.EmployeeEmail.Equals(SessionEmail)).FirstOrDefault();
+                Employee Emp_Details = new Employee
+                {
+                    EmployeeEmail = obj.EmployeeEmail,
+                    EmployeeFirstName = obj.EmployeeFirstName,
+                    EmployeeLastName = obj.EmployeeLastName,
+                    EmployeeDesignation = obj.EmployeeDesignation,
+                    EmployeeId = obj.EmployeeId,
+                    EmployeeJoiningDate = obj.EmployeeJoiningDate,
+                    EmployeeLeavingDate = obj.EmployeeLeavingDate
+                };
+                ViewBag.Message = Emp_Details;
+                return View();
+            }
         }
 
         public IActionResult Privacy()

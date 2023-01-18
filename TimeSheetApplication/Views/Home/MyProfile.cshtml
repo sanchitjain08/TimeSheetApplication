@@ -1,0 +1,23 @@
+﻿@model TimeSheetApplication.Models.Employee
+@using TimeSheetApplication.Models  
+
+@{  
+    ViewBag.Title = "My Profile";  
+}  
+
+<h3>Your Details :- </h3>
+@{   
+    var data = ViewBag.Message;  
+}  
+
+<ul>
+    <li>Email : @data.EmployeeEmail</li>
+    <li>Company ID : @data.EmployeeId</li>
+    <li>First Name : @data.EmployeeFirstName</li>
+    <li>Last Name : @data.EmployeeLastName</li>
+    <li>Designation : @data.EmployeeDesignation</li>
+    <li>Joining Date : @data.EmployeeJoiningDate</li>
+    <li>LeavingDate : @data.EmployeeLeavingDate</li>
+</ul>
+
+
