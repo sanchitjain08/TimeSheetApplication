@@ -1,10 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace TimeSheetApplication.Models;
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 public partial class TaskList
 {
+    [Key]
+    //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int TaskId { get; set; }
 
     public string EmployeeEmail { get; set; } = null!;

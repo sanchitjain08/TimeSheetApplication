@@ -65,13 +65,13 @@ public partial class TimeSheetApplicationContext : DbContext
 
         modelBuilder.Entity<TaskList>(entity =>
         {
-            entity.HasKey(e => e.TaskId).HasName("PK__TaskList__716F4AEDBB0F4CA2");
+            entity.HasKey(e => e.TaskId).HasName("PK__TaskList__716F4AEDBB0F4CA2"); 
 
             entity.ToTable("TaskList");
 
             entity.Property(e => e.TaskId)
-                .ValueGeneratedNever()
-                .HasColumnName("Task_Id");
+                .ValueGeneratedOnAdd()
+                .HasColumnName("Task_Id"); 
             entity.Property(e => e.EmployeeEmail)
                 .HasMaxLength(100)
                 .IsUnicode(false)

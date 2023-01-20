@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using TimeSheetApplication.Models;
 
@@ -47,7 +48,7 @@ namespace TimeSheetApplication.Controllers
                         }
 
                     }
-                
+       
             }
             else
             {
@@ -58,10 +59,8 @@ namespace TimeSheetApplication.Controllers
 
         public ActionResult Logout()
         {
-
             HttpContext.Session.Clear();
             HttpContext.Session.Remove("EmployeeEmail");
-
             return RedirectToAction("Login");
         }
 
@@ -91,6 +90,31 @@ namespace TimeSheetApplication.Controllers
                 ViewBag.Message = Emp_Details;
                 return View();
             }
+        }
+
+        public IActionResult CreateTask()
+        {
+            var SessionEmail = HttpContext.Session.GetString(SessionKeyName);
+            var CurrentDateTime = DateTime.Now.ToString();
+            ViewBag.SessionEmail = SessionEmail;
+            ViewBag.CurrentDateTime = CurrentDateTime;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateTask(TaskList taskobj)
+        {
+           
+                using (TimeSheetApplicationContext db = new TimeSheetApplicationContext())
+                {
+                    db.TaskLists.Add(taskobj);
+                    db.SaveChanges();
+                    TempData["ResultOk"] = "Record Added Successfully !";
+                    return RedirectToAction("Index");
+                }
+            
+            return View(taskobj);
         }
 
         public IActionResult Privacy()

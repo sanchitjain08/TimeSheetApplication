@@ -79,7 +79,7 @@ namespace TimeSheetApplication.Migrations
                     b.HasIndex(new[] { "EmployeeId" }, "UQ__Employee__78113480F6383760")
                         .IsUnique();
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("TimeSheetApplication.Models.TaskList", b =>
